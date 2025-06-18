@@ -1,9 +1,12 @@
 package com.grocery.backend.algos;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class BruteForce {
 
     private int[][] distanceMatrix;
@@ -13,10 +16,10 @@ public class BruteForce {
 
     public BruteForce() {}
 
-    public void solve(int[][] coordinates) {
+    public int[][] solve(int[][] coordinates) {
         init();
         createDistanceMatrix(coordinates);
-        
+
         this.numWarehouses = distanceMatrix.length;
         List<Integer> warehouses = new ArrayList<>();
         for (int i = 1; i < numWarehouses; i++) {
@@ -28,6 +31,12 @@ public class BruteForce {
         System.out.println("Minimum path cost: " + minCost);
         System.out.println("Best route: " + bestRoute);
         printRoute(coordinates, bestRoute);
+        int[][] solution = new int[bestRoute.size()][2];
+        for (int i = 0; i < numWarehouses; i++) {
+            solution[i][0] = coordinates[bestRoute.get(i)][0];
+            solution[i][1] = coordinates[bestRoute.get(i)][1];
+        }
+        return solution;
     }
 
     private void init() {
