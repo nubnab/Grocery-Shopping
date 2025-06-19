@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Entity
-@Table
+@Table(name = "app_order")
 public class Order {
 
     @Id
