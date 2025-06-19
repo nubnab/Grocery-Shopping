@@ -17,19 +17,23 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private float price;
 
+    @Column(nullable = false)
     private int quantity;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "x", column = @Column(name = "location_x")),
-            @AttributeOverride(name = "y", column = @Column(name = "location_y")),
+            @AttributeOverride(name = "x",
+                    column = @Column(name = "location_x", nullable = false)),
+            @AttributeOverride(name = "y",
+                    column = @Column(name = "location_y", nullable = false)),
     })
     private Location location;
 

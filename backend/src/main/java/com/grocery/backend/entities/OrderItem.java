@@ -17,6 +17,17 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
+    @ManyToOne(optional = false)
+    private Product product;
+
+    @Column(nullable = false)
+    private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
 
 }
