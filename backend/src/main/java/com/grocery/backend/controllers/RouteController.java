@@ -10,9 +10,8 @@ public class RouteController {
 
     @GetMapping("/routes")
     public ResponseEntity<String> getRoute(@RequestParam("orderId") int orderId){
+        //TODO: implementation
         return ResponseEntity.ok().body("Order: " + orderId);
     }
-
-    //TODO: custom ResponseEntity
 
 }
