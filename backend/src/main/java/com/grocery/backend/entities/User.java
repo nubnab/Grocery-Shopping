@@ -19,3 +19,11 @@ public class User {
     private Long id;
 
 }
+
+/*
+    Linkage:
+    Product + location
+    Order
+    Route
+    User
+ */
