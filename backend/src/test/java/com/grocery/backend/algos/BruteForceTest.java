@@ -1,9 +1,12 @@
 package com.grocery.backend.algos;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
+@ActiveProfiles("test")
 class BruteForceTest {
     BruteForce bruteForce;
 

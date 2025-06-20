@@ -35,7 +35,7 @@ public class ProductService {
 
         productRepository.save(product);
     }
-    
+
     private String normalizeProductName(String productName){
         return productName
                 .replaceAll("[^a-zA-Z0-9]", "")
