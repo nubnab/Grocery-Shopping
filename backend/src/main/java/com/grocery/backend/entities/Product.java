@@ -23,10 +23,10 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private double price;
+    private int quantity;
 
     @Column(nullable = false)
-    private int quantity;
+    private double price;
 
     @Embedded
     @AttributeOverrides({
