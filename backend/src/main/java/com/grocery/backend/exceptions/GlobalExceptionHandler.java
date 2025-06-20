@@ -16,6 +16,11 @@ public class GlobalExceptionHandler {
         return buildResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(DuplicateProductException.class)
+    public ResponseEntity<Object> handleDuplicate(DuplicateProductException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
     private ResponseEntity<Object> buildResponse(String message, HttpStatus status) {
         Map<String, Object> body = new HashMap<>();
         body.put("status", status.value());

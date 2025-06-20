@@ -23,7 +23,7 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private float price;
+    private double price;
 
     @Column(nullable = false)
     private int quantity;
@@ -36,5 +36,8 @@ public class Product {
                     column = @Column(name = "location_y", nullable = false)),
     })
     private Location location;
+
+    @Column(unique = true, nullable = false)
+    private String normalizedName;
 
 }
