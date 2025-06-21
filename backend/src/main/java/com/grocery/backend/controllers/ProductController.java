@@ -44,6 +44,7 @@ public class ProductController {
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id){
+        //TODO: revisit
         productService.delete(id);
         return ResponseEntity.ok().body(id + "deleted");
     }

@@ -26,6 +26,11 @@ public class GlobalExceptionHandler {
         return buildResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NotEnoughStockException.class)
+    public ResponseEntity<Object> handleNotEnoughStock(NotEnoughStockException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
     private ResponseEntity<Object> buildResponse(String message, HttpStatus status) {
         Map<String, Object> body = new HashMap<>();
         body.put("status", status.value());

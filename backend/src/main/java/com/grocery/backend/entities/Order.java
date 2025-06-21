@@ -27,14 +27,11 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, optional = false)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, optional = true) //optional = false
     private Route route;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id") //nullable = false)
     private User user;
-
-
-    //TODO: helper to add OrderItem
 
 }
