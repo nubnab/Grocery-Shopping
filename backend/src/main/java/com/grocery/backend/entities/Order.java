@@ -27,7 +27,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, optional = true) //optional = false
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Route route;
 
     @ManyToOne

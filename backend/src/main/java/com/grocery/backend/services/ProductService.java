@@ -86,7 +86,7 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public List<Product> validateAndFetchProducts(Map<String, Integer> preparedOrder) {
+    public List<Product> fetchProducts(Map<String, Integer> preparedOrder) {
         List<Product> productList = new ArrayList<>();
 
         for(String key : preparedOrder.keySet()){
@@ -99,6 +99,12 @@ public class ProductService {
         }
 
         return productList;
+    }
+
+    public void validateStock(Product product, int quantity) {
+        if(product.getQuantity() < quantity){
+            throw new NotEnoughStockException("Not enough stock to fulfill your order");
+        }
     }
 
     public String normalizeProductName(String productName) {
@@ -124,13 +130,6 @@ public class ProductService {
         }
         productRepository.saveAll(products);
     }
-
-    private void validateStock(Product product, int quantity) {
-        if(product.getQuantity() < quantity){
-            throw new NotEnoughStockException("Product " + product.getName() + " doesn't have enough stock");
-        }
-    }
-
 
     private void checkDuplicateProductName(String normalizedName){
         if (productRepository.existsByNormalizedName(normalizedName)) {

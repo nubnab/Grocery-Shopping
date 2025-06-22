@@ -26,6 +26,14 @@ public class Route {
     private Order order;
 
     @ElementCollection
-    private List<Location> locations;
+    @CollectionTable(
+            name = "route_locations",
+            joinColumns = @JoinColumn(name = "route_id"))
+    @AttributeOverrides({
+            @AttributeOverride(name = "x",
+                    column = @Column(name = "location_x", nullable = false)),
+            @AttributeOverride(name = "y",
+                    column = @Column(name = "location_y", nullable = false))})
+    private List<Location> visitedLocations;
 
 }

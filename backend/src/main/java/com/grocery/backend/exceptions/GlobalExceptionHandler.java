@@ -1,5 +1,6 @@
 package com.grocery.backend.exceptions;
 
+import com.grocery.backend.enums.OrderStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,13 +29,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotEnoughStockException.class)
     public ResponseEntity<Object> handleNotEnoughStock(NotEnoughStockException ex) {
-        return buildResponse(ex.getMessage(), HttpStatus.CONFLICT);
+        Map<String, Object> body = new HashMap<>();
+        body.put("status", OrderStatus.FAIL);
+        body.put("message", ex.getMessage());
+        return ResponseEntity.ok(body);
     }
 
     private ResponseEntity<Object> buildResponse(String message, HttpStatus status) {
         Map<String, Object> body = new HashMap<>();
         body.put("status", status.value());
-        body.put("error", status.getReasonPhrase());
         body.put("message", message);
 
         return new ResponseEntity<>(body, status);

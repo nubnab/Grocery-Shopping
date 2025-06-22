@@ -36,6 +36,7 @@ public class BruteForce {
             solution[i][0] = coordinates[bestRoute.get(i)][0];
             solution[i][1] = coordinates[bestRoute.get(i)][1];
         }
+
         return solution;
     }
 
