@@ -23,6 +23,7 @@ public class OrderCreationService {
     private final ProductService productService;
     private final OrderService orderService;
     private final RouteService routeService;
+    private final UserService userService;
 
     @Transactional
     public void create(List<OrderDto> productOrderList) {
@@ -56,15 +57,10 @@ public class OrderCreationService {
             productService.updateStock(products, preparedOrder);
             Route route = routeService.createRoute(locations);
 
-            //System.out.println(route.getVisitedLocations());
-
-
             order.setOrderItems(orderItems);
 
             order.setRoute(route);
             route.setOrder(order);
-
-            //System.out.println(order.getRoute().getVisitedLocations());
 
             order.setOrderStatus(OrderStatus.SUCCESS);
 
