@@ -1,0 +1,29 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use './app/styles/_theme-colors.scss' as theme-colors;
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      primary: theme-colors.$primary-palette,
+      tertiary: theme-colors.$tertiary-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}/* You can add global styles to this file, and also import other style files */
+
+.dark {
+  color-scheme: dark;
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
