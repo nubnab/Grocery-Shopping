@@ -21,14 +21,40 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <span>frontend</span>
+      <span>Grocery Shopping</span>
+
+      @if (!loginState()) {
+        <div>
+          <button mat-flat-button
+                  class="login-button"
+                  (click)="openLoginModal()">Login</button>
+          <button mat-flat-button
+                  class="register-button"
+                  (click)="openRegisterModal()">Register</button>
+        </div>
+      } @else {
+        <div class="profile-container">
+          <button class="profile-button"
+                  [matMenuTriggerFor]="menu">
+            <mat-menu #menu="matMenu" class="profile-menu">
+              @if (getAuthService.isAdmin()){
+                <button mat-menu-item [routerLink]="'/dashboard'">Admin Dashboard</button>
+              }
+              <button mat-menu-item [routerLink]="getAuthService.currentUserSignal()">My Channel</button>
+              <button mat-menu-item [routerLink]="getAuthService.currentUserSignal() + '/recordings'">My Recordings</button>
+              <button mat-menu-item [routerLink]="'settings'">Settings</button>
+              <button mat-menu-item (click)="getAuthService.logout()">Logout</button>
+            </mat-menu>
+          </button>
+        </div>
+      }
+
       <p class="theme-toggle">
         <mat-icon>light_mode</mat-icon>
         <mat-slide-toggle (change)="onThemeChange($event)"></mat-slide-toggle>
         <mat-icon>dark_mode</mat-icon>
       </p>
     </mat-toolbar>
-    <!-- Add Content Here -->
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
