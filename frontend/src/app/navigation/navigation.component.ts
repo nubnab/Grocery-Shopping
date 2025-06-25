@@ -9,6 +9,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-toggle';
+import {AuthService} from '../services/auth.service';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {UserForm} from '../forms/user-form/user-form';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {RouterLink} from '@angular/router';
+
 
 @Component({
   selector: 'app-navigation',
@@ -22,10 +28,20 @@ import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-togg
     MatIconModule,
     AsyncPipe,
     MatSlideToggle,
+    MatMenuItem,
+    RouterLink,
+    MatMenu,
+    MatMenuTrigger,
+    MatDialogModule,
   ]
 })
 export class NavigationComponent {
   private breakpointObserver = inject(BreakpointObserver);
+  readonly dialog = inject(MatDialog);
+
+  private authService = inject(AuthService);
+
+  loginState = this.authService.loginStateSignal;
 
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
@@ -35,7 +51,40 @@ export class NavigationComponent {
       shareReplay()
     );
 
+  get getAuthService() {
+    return this.authService;
+  }
+
+
   onThemeChange(event: MatSlideToggleChange) {
     this.document.body.classList.toggle('dark');
   }
+
+openLoginModal() {
+  const dialogRef = this.dialog.open(UserForm, {
+    id: 'login_dialog',
+    enterAnimationDuration: 0,
+    exitAnimationDuration: 0,
+    data: {isLogin: true},
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Login Dialog was closed.');
+  })
+}
+
+openRegisterModal() {
+  const dialogRef = this.dialog.open(UserForm, {
+    id: 'register_dialog',
+    enterAnimationDuration: 0,
+    exitAnimationDuration: 0,
+    data: { isLogin: false },
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Dialog was closed.');
+  })
+}
+
+
 }
