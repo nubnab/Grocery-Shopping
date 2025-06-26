@@ -4,6 +4,8 @@ This is a simple backend grocery shopping API written in Java and Spring.
 ## Project overview
 
 This program aims to calculate the shortest route possible between warehouses in order to complete an order.
+The algorithm used here is a brute force solution and is suficient for up to 10-11 locations, as it's complexity is O(n!).
+An improvement could be made by using a DP programming algorhitm such as Held-Karp or a heuristic like the Christofides algorithm for much better performance at the cost of accuracy.
 
 ---
 
