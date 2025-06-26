@@ -40,7 +40,7 @@ git clone https://github.com/nubnab/Grocery-Shopping.git && cd Grocery-Shopping
 docker compose up -d
 ```
 
-### Uninstall
+#### Uninstall
 ```
 docker compose down --rmi all --volumes
 ```
