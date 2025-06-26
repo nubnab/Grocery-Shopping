@@ -30,8 +30,4 @@ public class Order {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Route route;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id") //nullable = false)
-    private User user;
-
 }

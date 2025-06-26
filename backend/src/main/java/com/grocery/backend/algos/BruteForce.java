@@ -12,7 +12,7 @@ public class BruteForce {
     private int[][] distanceMatrix;
     private int numWarehouses;
     private int minCost = Integer.MAX_VALUE;
-    private List<Integer> bestRoute = new ArrayList<>();
+    private int[] bestRoute;
 
     public BruteForce() {}
 
@@ -21,31 +21,31 @@ public class BruteForce {
         createDistanceMatrix(coordinates);
 
         this.numWarehouses = distanceMatrix.length;
-        List<Integer> warehouses = new ArrayList<>();
+
+        int[] warehouses = new int[numWarehouses];
         for (int i = 1; i < numWarehouses; i++) {
-            warehouses.add(i);
+            warehouses[i - 1] = i;
         }
 
         generateCombinations(warehouses, 0);
 
-        System.out.println("Minimum path cost: " + minCost);
-        System.out.println("Best route: " + bestRoute);
-        printRoute(coordinates, bestRoute);
-        int[][] solution = new int[bestRoute.size()][2];
-        for (int i = 0; i < numWarehouses; i++) {
-            solution[i][0] = coordinates[bestRoute.get(i)][0];
-            solution[i][1] = coordinates[bestRoute.get(i)][1];
+        int[][] solution = new int[bestRoute.length][2];
+        for (int i = 0; i < bestRoute.length; i++) {
+            solution[i][0] = coordinates[bestRoute[i]][0];
+            solution[i][1] = coordinates[bestRoute[i]][1];
         }
+
+        printRoute(solution, bestRoute);
 
         return solution;
     }
 
     private void init() {
         this.minCost = Integer.MAX_VALUE;
-        this.bestRoute = new ArrayList<>();
+        this.bestRoute = null;
     }
 
-    private void printRoute(int[][] coordinates, List<Integer> bestRoute) {
+    private void printRoute(int[][] coordinates, int[] bestRoute) {
         for (int bestRouteIndex : bestRoute) {
             System.out.printf("(%d, %d) ", coordinates[bestRouteIndex][0], coordinates[bestRouteIndex][1]);
         }
@@ -59,26 +59,28 @@ public class BruteForce {
         this.numWarehouses = coordinates.length;
         this.distanceMatrix = new int[numWarehouses][numWarehouses];
         for (int i = 0; i < numWarehouses; i++) {
-            for (int j = 0; j < numWarehouses; j++) {
-                distanceMatrix[i][j] = calcDistance(coordinates[i], coordinates[j]);
+            for (int j = i + 1; j < numWarehouses; j++) {
+                int dist = calcDistance(coordinates[i], coordinates[j]);
+                distanceMatrix[i][j] = dist;
+                distanceMatrix[j][i] = dist;
             }
         }
     }
 
-    private void generateCombinations(List<Integer> warehouses, int l) {
-        if (l == warehouses.size()) {
+    private void generateCombinations(int[] warehouses, int l) {
+        if (l == warehouses.length) {
             evaluatePath(warehouses);
             return;
         }
 
-        for(int i = l; i < warehouses.size(); i++) {
-            Collections.swap(warehouses, l, i);
+        for(int i = l; i < warehouses.length; i++) {
+            swap(warehouses, l, i);
             generateCombinations(warehouses, l + 1);
-            Collections.swap(warehouses, l, i);
+            swap(warehouses, l, i);
         }
     }
 
-    private void evaluatePath(List<Integer> warehouses) {
+    private void evaluatePath(int[] warehouses) {
         int cost = 0;
         int currentWarehouse = 0;
 
@@ -92,11 +94,17 @@ public class BruteForce {
 
         if (cost < minCost) {
             minCost = cost;
-            bestRoute = new ArrayList<>();
-            bestRoute.add(0);
-            bestRoute.addAll(warehouses);
-            bestRoute.add(0);
+            bestRoute = new int[warehouses.length + 1];
+            bestRoute[0] = 0;
+            System.arraycopy(warehouses, 0, bestRoute, 1, warehouses.length);
+            bestRoute[bestRoute.length - 1] = 0;
         }
+    }
+
+    private void swap(int[] warehouses, int i, int j) {
+        int tmp = warehouses[i];
+        warehouses[i] = warehouses[j];
+        warehouses[j] = tmp;
     }
 
 }

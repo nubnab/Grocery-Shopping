@@ -29,4 +29,5 @@ class BruteForceTest {
         );
         assertEquals(0, bruteForce.getMinCost());
     }
+
 }

@@ -1,6 +1,14 @@
 package com.grocery.backend.dto;
 
-public record OrderDto(String productName,
-                       int quantity) {
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
+public record OrderDto(
+        @NotNull
+        String productName,
+
+        @Min(0)
+        @NotNull
+        int quantity) {
 
 }

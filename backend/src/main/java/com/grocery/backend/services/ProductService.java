@@ -1,8 +1,8 @@
 package com.grocery.backend.services;
 
-import com.grocery.backend.dto.OrderDto;
 import com.grocery.backend.dto.ProductDto;
 import com.grocery.backend.dto.ProductUpdateDto;
+import com.grocery.backend.embeds.Location;
 import com.grocery.backend.entities.Product;
 import com.grocery.backend.exceptions.DuplicateProductException;
 import com.grocery.backend.exceptions.InvalidInputException;
@@ -26,13 +26,11 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     @Transactional
-    //TODO: validation
     public Product create(ProductUpdateDto productUpdateDto){
         String normalizedName = normalizeProductName(productUpdateDto.name());
 
         checkDuplicateProductName(normalizedName);
-
-        //TODO: validate  unique location
+        validateLocation(productUpdateDto.location());
 
         Product product = Product.builder()
                 .name(productUpdateDto.name())
@@ -54,7 +52,6 @@ public class ProductService {
 
 
     @Transactional
-    //TODO: validation
     public Product update(Long id, ProductUpdateDto productUpdateDto) {
         String normalizedName = "";
 
@@ -70,7 +67,7 @@ public class ProductService {
             product.setNormalizedName(normalizedName);
         }
 
-        //TODO: validate  unique location
+        validateLocation(productUpdateDto.location());
 
         productMapper.updateProduct(productUpdateDto, product);
 
@@ -135,6 +132,20 @@ public class ProductService {
         if (productRepository.existsByNormalizedName(normalizedName)) {
             throw new DuplicateProductException("Product with name " + normalizedName + " already exists");
         }
+    }
+
+    private void validateLocation(Location location) {
+        if (location == null) { return; }
+
+        if (location.getX() < 0 || location.getY() < 0) {
+            throw new InvalidInputException("Location is out of bounds");
+        }
+
+        productRepository.findAll().forEach(product -> {
+            if (product.getLocation().equals(location)) {
+                throw new DuplicateProductException("Product with location " + location + " already exists");
+            }
+        });
     }
 
 }

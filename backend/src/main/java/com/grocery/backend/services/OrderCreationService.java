@@ -23,7 +23,6 @@ public class OrderCreationService {
     private final ProductService productService;
     private final OrderService orderService;
     private final RouteService routeService;
-    private final UserService userService;
 
     @Transactional
     public void create(List<OrderDto> productOrderList) {

@@ -21,7 +21,6 @@ public class RouteService {
 
     private final RouteRepository routeRepository;
 
-
     public Route createRoute(List<Location> locations) {
         BruteForce bruteForce = new BruteForce();
 
@@ -35,8 +34,6 @@ public class RouteService {
         }
 
         int[][] minCostRoute = bruteForce.solve(coordinates);
-
-        System.out.println();
 
         List<Location> visitedLocations = new ArrayList<>();
 

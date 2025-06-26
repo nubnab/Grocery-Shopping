@@ -5,6 +5,7 @@ import com.grocery.backend.dto.ProductDto;
 import com.grocery.backend.dto.ProductUpdateDto;
 import com.grocery.backend.entities.Product;
 import com.grocery.backend.services.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/products")
-    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductUpdateDto productUpdateDto){
-        //TODO: shift URI creation to service?
+    public ResponseEntity<ProductResponseDto> createProduct(@Valid @RequestBody ProductUpdateDto productUpdateDto){
         Product product = productService.create(productUpdateDto);
         return ResponseEntity.created(URI.create("/products/" + product.getId())).body(
                 new ProductResponseDto(product.getId(), product.getName())
@@ -34,8 +34,7 @@ public class ProductController {
 
     @PutMapping("/products/{id}")
     public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id,
-                                                            @RequestBody ProductUpdateDto ProductUpdateDto){
-        //TODO: shift URI creation to service?
+                                                            @Valid @RequestBody ProductUpdateDto ProductUpdateDto){
         Product product = productService.update(id, ProductUpdateDto);
         return ResponseEntity.created(URI.create("/products/" + product.getId())).body(
                 new ProductResponseDto(product.getId(), product.getName())
@@ -44,7 +43,6 @@ public class ProductController {
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id){
-        //TODO: revisit
         productService.delete(id);
         return ResponseEntity.ok().body(id + "deleted");
     }
