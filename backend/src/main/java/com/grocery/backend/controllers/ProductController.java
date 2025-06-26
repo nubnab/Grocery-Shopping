@@ -23,7 +23,12 @@ public class ProductController {
     public ResponseEntity<ProductResponseDto> createProduct(@Valid @RequestBody ProductUpdateDto productUpdateDto){
         Product product = productService.create(productUpdateDto);
         return ResponseEntity.created(URI.create("/products/" + product.getId())).body(
-                new ProductResponseDto(product.getId(), product.getName())
+                new ProductResponseDto(
+                        product.getId(),
+                        product.getName(),
+                        product.getQuantity(),
+                        product.getPrice(),
+                        product.getLocation())
         );
     }
 
@@ -37,7 +42,12 @@ public class ProductController {
                                                             @Valid @RequestBody ProductUpdateDto ProductUpdateDto){
         Product product = productService.update(id, ProductUpdateDto);
         return ResponseEntity.created(URI.create("/products/" + product.getId())).body(
-                new ProductResponseDto(product.getId(), product.getName())
+                new ProductResponseDto(
+                        product.getId(),
+                        product.getName(),
+                        product.getQuantity(),
+                        product.getPrice(),
+                        product.getLocation())
         );
     }
 

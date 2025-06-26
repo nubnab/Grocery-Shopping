@@ -58,9 +58,11 @@ public class RouteService {
 
     private ArrayList<int[]> getVisitedLocations(List<Location> locations) {
         ArrayList<int[]> visitedLocations = new ArrayList<>();
+        visitedLocations.add(new int[] {0, 0});
         for (Location location : locations) {
             visitedLocations.add(new int[] {location.getX(), location.getY()});
         }
+        visitedLocations.add(new int[] {0, 0});
         return visitedLocations;
     }
 

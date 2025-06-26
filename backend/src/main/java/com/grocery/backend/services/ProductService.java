@@ -141,9 +141,13 @@ public class ProductService {
             throw new InvalidInputException("Location is out of bounds");
         }
 
+        if (location.getX() == 0 && location.getY() == 0) {
+            throw new InvalidInputException("Location cannot be the starting location");
+        }
+
         productRepository.findAll().forEach(product -> {
             if (product.getLocation().equals(location)) {
-                throw new DuplicateProductException("Product with location " + location + " already exists");
+                throw new DuplicateProductException("Product with " + location + " already exists");
             }
         });
     }
